@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	if (argc < 3)
 	{
 		std::cout << "Gall usage: ./Gall <pngfile> <rexfile>\n";
-		return;
+		return 1;
 	}
 
 	std::string input_file = std::string(argv[1]);
