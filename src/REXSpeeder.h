@@ -1,15 +1,18 @@
 /*For version 1.02 of REXPaint*/
 #pragma once
+
 #include <iostream>
 #include <stdint.h>
 #include <array>
 #include <vector>
 
-namespace xp {
+namespace xp
+{
 	//This struct matches the order and width of data in .xp tiles.
-	struct  RexTile {
+	struct RexTile
+	{
 		//I don't know why a CP437 character should be 4 bytes wide, but thus sprach the manual.
-		uint32_t  character;
+		uint32_t character;
 		uint8_t fore_red;
 		uint8_t fore_green;
 		uint8_t fore_blue;
@@ -26,17 +29,24 @@ namespace xp {
 	//Returns a transparent tile.
 	constexpr RexTile transparentTile()
 	{
-		return RexTile{0, 0, 0, 0, 255, 0, 255};
+		return RexTile{ 0, 0, 0, 0, 255, 0, 255 };
 	}
 
-	struct RexLayer {
+	struct RexLayer
+	{
 		std::vector<RexTile> tiles;
+
 		RexLayer(int width, int height);
-		RexLayer() {}
+
+		RexLayer()
+		{
+		}
+
 		~RexLayer();
 	};
 
-	class RexImage {
+	class RexImage
+	{
 	public:
 		//Load an .xp file into a new RexFile.
 		//Note: May throw a const char* error message and set errno.
@@ -55,24 +65,51 @@ namespace xp {
 		RexImage(int _version, int _width, int _height, int _num_layers);
 
 		//Image attributes
-		inline int getVersion() { return version; };
-		inline int getWidth() { return width; };
-		inline int getHeight() { return height; };
-		inline int getNumLayers() { return num_layers; };
+		inline int getVersion()
+		{
+			return version;
+		};
+
+		inline int getWidth()
+		{
+			return width;
+		};
+
+		inline int getHeight()
+		{
+			return height;
+		};
+
+		inline int getNumLayers()
+		{
+			return num_layers;
+		};
 
 		//Returns a pointer to a single tile specified by layer, x coordinate, y coordinate.
 		//0,0 is the top-left corner.
-		inline RexTile* getTile(int layer, int x, int y) { return &layers[layer].tiles[y + (x * height)]; };
+		inline RexTile* getTile(int layer, int x, int y)
+		{
+			return &layers[layer].tiles[y + (x * height)];
+		};
 
 		//Returns a pointer to a single tile specified by layer and the actual index into the array.
 		//Useful for iterating through a whole layer in one go for coordinate-nonspecific tasks.
-		inline RexTile* getTile(int layer, int index) { return &layers[layer].tiles[index]; };
+		inline RexTile* getTile(int layer, int index)
+		{
+			return &layers[layer].tiles[index];
+		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.
-		inline void setTile(int layer, int x, int y, RexTile val) { *getTile(layer, x, y) = val; };
+		inline void setTile(int layer, int x, int y, RexTile val)
+		{
+			*getTile(layer, x, y) = val;
+		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.
-		inline void setTile(int layer, int i, RexTile& val) { *getTile(layer, i) = val; };
+		inline void setTile(int layer, int i, RexTile& val)
+		{
+			*getTile(layer, i) = val;
+		};
 
 		//Combines all the layers of the image into one layer.
 		//Respects transparency.
@@ -91,11 +128,22 @@ namespace xp {
 	//Custom exception class, mostly for zlib errors. Custom exception codes follow.
 	//This is needlessly verbose because I don't want to reference gzFiles
 	//in this header. Then users would have to include zlib.h.
-	class Rexception : public std::exception {
+	class Rexception : public std::exception
+	{
 	public:
-		Rexception(std::string msg, int errcode) :err(msg),code(errcode) {}
-		~Rexception(){}
-		virtual const char* what() const throw() { return err.c_str(); }
+		Rexception(std::string msg, int errcode) : err(msg), code(errcode)
+		{
+		}
+
+		~Rexception()
+		{
+		}
+
+		virtual const char* what() const throw()
+		{
+			return err.c_str();
+		}
+
 		int code;
 	private:
 		std::string err;
