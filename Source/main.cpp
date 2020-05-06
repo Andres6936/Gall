@@ -9,11 +9,12 @@ constexpr int rex_version = -1;
 
 int main(int argc, char* argv[])
 {
-	if (argc != 3)
+	if (argc < 3)
 	{
-		std::cout << "png2rex usage: png2rex <pngfile> <rexfile>\n";
-		return 0;
+		std::cout << "Gall usage: ./Gall <pngfile> <rexfile>\n";
+		return;
 	}
+
 	std::string input_file = std::string(argv[1]);
 	std::string output_file = std::string(argv[2]);
 
