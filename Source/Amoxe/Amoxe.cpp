@@ -1,4 +1,4 @@
-#include "../../Include/Amoxe/Amoxe.h"
+#include "../../Include/Amoxe/Amoxe.hpp"
 #include <zlib.h>
 
 //===========================================================================================================//
@@ -185,19 +185,5 @@ namespace xp
 	{
 		//This might be faster than comparing with transparentTile(), despite it being a constexpr
 		return (tile->back_red == 255 && tile->back_green == 0 && tile->back_blue == 255);
-	}
-
-//===========================================================================================================//
-//    RexLayer constructor/destructor                                                                        //
-//===========================================================================================================//
-
-	RexLayer::RexLayer(int width, int height)
-	{
-		tiles.resize(width * height);
-	}
-
-	RexLayer::~RexLayer()
-	{
-		tiles.clear();
 	}
 }

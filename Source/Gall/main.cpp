@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "../../Include/PNGLoader/PngLoader.hpp"
-#include "../../Include/Amoxe/Amoxe.h"
+#include "Loader/PngLoader.hpp"
+#include "Amoxe/Amoxe.hpp"
 
 using namespace xp;
 

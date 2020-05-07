@@ -1,4 +1,4 @@
-#include "../../Include/PNGLoader/PngLoader.hpp"
+#include "Loader/PngLoader.hpp"
 
 #include <fstream>
 #include <string>

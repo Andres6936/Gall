@@ -1,11 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.15 FATAL_ERROR)
 PROJECT(Gall VERSION 2020.5.3 LANGUAGES CXX)
 
+INCLUDE_DIRECTORIES(./Include/)
+
 SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_STANDARD_REQUIRED on)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -O3 -Wall -Wpedantic -march=native -mtune=native -g")
 
-ADD_EXECUTABLE(Gall Source/Gall/main.cpp Source/Loader/PngLoader.cpp Source/Amoxe/Amoxe.cpp)
+ADD_EXECUTABLE(Gall
+        Source/Gall/main.cpp
+        Source/Loader/PngLoader.cpp
+        Source/Amoxe/Amoxe.cpp
+        Source/Amoxe/Layer.cpp)
 
 # We depend upon zlib
 FIND_PACKAGE(ZLIB REQUIRED)

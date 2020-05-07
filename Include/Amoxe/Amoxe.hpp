@@ -6,21 +6,11 @@
 #include <array>
 #include <vector>
 
+#include "Tile.hpp"
+#include "Layer.hpp"
+
 namespace xp
 {
-	//This struct matches the order and width of data in .xp tiles.
-	struct RexTile
-	{
-		//I don't know why a CP437 character should be 4 bytes wide, but thus sprach the manual.
-		uint32_t character;
-		uint8_t fore_red;
-		uint8_t fore_green;
-		uint8_t fore_blue;
-		uint8_t back_red;
-		uint8_t back_green;
-		uint8_t back_blue;
-	};
-
 	//REXpaint identifies transparent tiles by setting their background color to 255,0,255.
 	//You may want to check this for each tile before drawing or converting a RexFile.
 	//(By default, no tile in the first layer is transaprent).
@@ -31,19 +21,6 @@ namespace xp
 	{
 		return RexTile{ 0, 0, 0, 0, 255, 0, 255 };
 	}
-
-	struct RexLayer
-	{
-		std::vector<RexTile> tiles;
-
-		RexLayer(int width, int height);
-
-		RexLayer()
-		{
-		}
-
-		~RexLayer();
-	};
 
 	class RexImage
 	{
