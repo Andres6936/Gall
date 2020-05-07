@@ -1,4 +1,4 @@
-#include "../../Include/Amoxe/Amoxe.hpp"
+#include "Amoxe/Amoxe.hpp"
 #include <zlib.h>
 
 //===========================================================================================================//
@@ -36,7 +36,7 @@ static void s_gzwrite(gzFile g, voidp buf, unsigned int len)
 	throw makeRexception(g);
 }
 
-static gzFile s_gzopen(const std::string filename, const char* permissions)
+static gzFile s_gzopen(const std::string& filename, const char* permissions)
 {
 	gzFile g = gzopen(filename.c_str(), permissions);
 
@@ -72,7 +72,7 @@ namespace xp
 		gzFile gz;
 		try
 		{
-			gz = s_gzopen(filename.c_str(), "rb");
+			gz = s_gzopen(filename, "rb");
 
 			s_gzread(gz, (vp)&version, sizeof(version));
 			s_gzread(gz, (vp)&num_layers, sizeof(num_layers));
@@ -112,7 +112,7 @@ namespace xp
 
 		try
 		{
-			gzFile gz = s_gzopen(filename.c_str(), "wb");
+			gzFile gz = s_gzopen(filename, "wb");
 
 			s_gzwrite(gz, (vp)&version, sizeof(version));
 			s_gzwrite(gz, (vp)&num_layers, sizeof(num_layers));

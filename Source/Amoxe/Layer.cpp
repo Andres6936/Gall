@@ -8,8 +8,3 @@ RexLayer::RexLayer(int width, int height)
 {
 	tiles.resize(width * height);
 }
-
-RexLayer::~RexLayer()
-{
-	tiles.clear();
-}

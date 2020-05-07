@@ -14,12 +14,6 @@ namespace xp
 		std::vector<RexTile> tiles;
 
 		RexLayer(int width, int height);
-
-		RexLayer()
-		{
-		}
-
-		~RexLayer();
 	};
 }
 

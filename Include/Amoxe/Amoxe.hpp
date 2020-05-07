@@ -24,6 +24,18 @@ namespace xp
 
 	class RexImage
 	{
+
+	private:
+
+		//Image properties
+		int version = -1;
+		int width = 0;
+		int height = 0;
+		int num_layers = 0;
+
+		//layers[0] is the first layer.
+		std::vector<RexLayer> layers;
+
 	public:
 		//Load an .xp file into a new RexFile.
 		//Note: May throw a const char* error message and set errno.
@@ -91,15 +103,6 @@ namespace xp
 		//Combines all the layers of the image into one layer.
 		//Respects transparency.
 		void flatten();
-
-	private:
-		//Image properties
-		int version;
-		int width, height, num_layers;
-		std::vector<RexLayer> layers; //layers[0] is the first layer.
-
-		//Forbid default construction.
-		RexImage();
 	};
 
 	//Custom exception class, mostly for zlib errors. Custom exception codes follow.
