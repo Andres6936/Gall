@@ -7,6 +7,7 @@
 #include <fstream>
 #include <filesystem>
 #include <boost/process.hpp>
+#include <boost/process/io.hpp>
 
 namespace fs = std::filesystem;
 
@@ -60,6 +61,28 @@ int main(int argc, char* argv[])
 			else
 			{
 				std::cerr << "Can not open the file " << file.string() << "\n";
+			}
+		}
+
+		boost::process::ipstream readerPipe;
+
+		const std::string commandSha256sum = "/usr/bin/sha256sum";
+
+		for (const std::string& filename : filenameOutput)
+		{
+			fs::directory_entry file(filename);
+
+			if(file.exists() and file.is_regular_file())
+			{
+				boost::process::child child(commandSha256sum, file.path().string(), boost::process::std_out > readerPipe);
+				std::string result;
+				std::getline(readerPipe, result);
+				std::cout << result << " file " << filename << "\n";
+				child.wait();
+			}
+			else
+			{
+				std::cerr << "The file <" << file.path().string() << "> no exist\n";
 			}
 		}
 	}
