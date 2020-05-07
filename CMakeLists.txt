@@ -5,7 +5,7 @@ SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_STANDARD_REQUIRED on)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -O3 -Wall -Wpedantic -march=native -mtune=native -g")
 
-ADD_EXECUTABLE(Gall Source/main.cpp Source/PngLoader.cpp Source/REXSpeeder.cpp)
+ADD_EXECUTABLE(Gall Source/main.cpp Source/PngLoader.cpp Source/Amoxe/Amoxe.cpp)
 
 # We depend upon zlib
 FIND_PACKAGE(ZLIB REQUIRED)

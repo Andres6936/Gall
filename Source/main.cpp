@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "PngLoader.hpp"
-#include "REXSpeeder.h"
+#include "../Include/Amoxe/Amoxe.h"
 
 using namespace xp;
 
