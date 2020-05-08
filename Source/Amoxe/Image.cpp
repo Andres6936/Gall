@@ -1,6 +1,9 @@
 #include "Amoxe/Image.hpp"
 #include "Amoxe/Exception/Exception.hpp"
 
+#include "Amoxe/Compressable.hpp"
+#include "Amoxe/Decompressable.hpp"
+
 #include <zlib.h>
 
 //===========================================================================================================//
@@ -18,22 +21,6 @@ static Amoxe::Rexception makeRexception(gzFile g)
 	const char* errstr = gzerror(g, &errnum);
 	Amoxe::Rexception e(errstr, errnum);
 	return e;
-}
-
-static void s_gzwrite(gzFile g, voidp buf, unsigned int len)
-{
-	if (gzwrite(g, buf, len) > 0)
-		return;
-
-	throw makeRexception(g);
-}
-
-static void s_gzwrite(gzFile g, Tile& buf, unsigned int len)
-{
-	if (gzwrite(g,  reinterpret_cast<void *>(&buf), len) > 0)
-		return;
-
-	throw makeRexception(g);
 }
 
 static gzFile s_gzopen(const std::string& filename, const char* permissions)
@@ -116,17 +103,17 @@ namespace Amoxe
 		{
 			gzFile gz = s_gzopen(filename, "wb");
 
-			s_gzwrite(gz, (vp)&version, sizeof(version));
-			s_gzwrite(gz, (vp)&num_layers, sizeof(num_layers));
+			Compressable::write(gz, (vp)&version, sizeof(version));
+			Compressable::write(gz, (vp)&num_layers, sizeof(num_layers));
 
 			for (int layer = 0; layer < num_layers; ++layer)
 			{
-				s_gzwrite(gz, (vp)&width, sizeof(width));
-				s_gzwrite(gz, (vp)&height, sizeof(height));
+				Compressable::write(gz, (vp)&width, sizeof(width));
+				Compressable::write(gz, (vp)&height, sizeof(height));
 
 				for (int i = 0; i < width * height; ++i)
 					//Note: not "sizeof(RexTile)" because of padding.
-					s_gzwrite(gz, getTile(layer, i), tileLen);
+					Compressable::write(gz, getTile(layer, i), tileLen);
 
 			}
 

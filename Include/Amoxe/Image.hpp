@@ -8,7 +8,6 @@
 
 #include "Tile.hpp"
 #include "Layer.hpp"
-#include "Decompressable.hpp"
 
 namespace Amoxe
 {
