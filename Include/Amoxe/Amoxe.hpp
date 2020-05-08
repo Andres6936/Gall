@@ -14,15 +14,15 @@ namespace xp
 	//REXpaint identifies transparent tiles by setting their background color to 255,0,255.
 	//You may want to check this for each tile before drawing or converting a RexFile.
 	//(By default, no tile in the first layer is transaprent).
-	inline bool isTransparent(RexTile* tile);
+	inline bool isTransparent(Tile* tile);
 
 	//Returns a transparent tile.
-	constexpr RexTile transparentTile()
+	constexpr Tile transparentTile()
 	{
-		return RexTile{ 0, 0, 0, 0, 255, 0, 255 };
+		return Tile{ 0, 0, 0, 0, 255, 0, 255 };
 	}
 
-	class RexImage
+	class Image
 	{
 
 	private:
@@ -42,7 +42,7 @@ namespace xp
 		//Both the error message and the value of errno may be as gzopen or gzread set them.
 		//It may also throw an error with code REXSPEEDER_FILE_DOES_NOT_EXIST.
 		//Will not throw an error if the file specified by `filename` is not zlib compressed.
-		RexImage(std::string const& filename);
+		Image(std::string const& filename);
 
 		//Save this RexFile into a valid .xp file that RexPaint can load (if the ".xp" suffix is present).
 		//Note: May throw a const char* error message and set errno.
@@ -51,7 +51,7 @@ namespace xp
 
 		//Create a blank RexFile with the specified attributes.
 		//Layers above the first will be made of transparent tiles.
-		RexImage(int _version, int _width, int _height, int _num_layers);
+		Image(int _version, int _width, int _height, int _num_layers);
 
 		//Image attributes
 		inline int getVersion()
@@ -76,26 +76,26 @@ namespace xp
 
 		//Returns a pointer to a single tile specified by layer, x coordinate, y coordinate.
 		//0,0 is the top-left corner.
-		inline RexTile* getTile(int layer, int x, int y)
+		inline Tile* getTile(int layer, int x, int y)
 		{
 			return &layers[layer].at(y + (x * height));
 		};
 
 		//Returns a pointer to a single tile specified by layer and the actual index into the array.
 		//Useful for iterating through a whole layer in one go for coordinate-nonspecific tasks.
-		inline RexTile* getTile(int layer, int index)
+		inline Tile* getTile(int layer, int index)
 		{
 			return &layers[layer].at(index);
 		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.
-		inline void setTile(int layer, int x, int y, RexTile val)
+		inline void setTile(int layer, int x, int y, Tile val)
 		{
 			*getTile(layer, x, y) = val;
 		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.
-		inline void setTile(int layer, int i, RexTile& val)
+		inline void setTile(int layer, int i, Tile& val)
 		{
 			*getTile(layer, i) = val;
 		};

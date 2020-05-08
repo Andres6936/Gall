@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 	const int height = png.getHeight();
 	std::cout << "Original image is " << width << "x" << height << " pixels\n";
 
-	RexImage rex{ rex_version, width, height, 1 };
+	Image rex{ rex_version, width, height, 1 };
 	for (int y = 0; y < height; ++y)
 	{
 		for (int x = 0; x < width; ++x)
@@ -36,30 +36,30 @@ int main(int argc, char* argv[])
 			std::tie(r, g, b, a) = png.getPixelAt(x, (height - 1) - y);
 			if (a == 0)
 			{
-				rex.setTile(0, x, y, RexTile{ 0, 0, 0, 0, 255, 0, 255 });
+				rex.setTile(0, x, y, Tile{ 0, 0, 0, 0, 255, 0, 255 });
 			}
 			else if (a == 255)
 			{
-				rex.setTile(0, x, y, RexTile{ 219, r, g, b, 0, 0, 0 });
+				rex.setTile(0, x, y, Tile{ 219, r, g, b, 0, 0, 0 });
 			}
 			else
 			{
 				float percent = (float)a / 255.0F;
 				if (percent < 0.25F)
 				{
-					rex.setTile(0, x, y, RexTile{ 176, r, g, b, 0, 0, 0 });
+					rex.setTile(0, x, y, Tile{ 176, r, g, b, 0, 0, 0 });
 				}
 				else if (percent < 0.5F)
 				{
-					rex.setTile(0, x, y, RexTile{ 177, r, g, b, 0, 0, 0 });
+					rex.setTile(0, x, y, Tile{ 177, r, g, b, 0, 0, 0 });
 				}
 				else if (percent < 0.75F)
 				{
-					rex.setTile(0, x, y, RexTile{ 178, r, g, b, 0, 0, 0 });
+					rex.setTile(0, x, y, Tile{ 178, r, g, b, 0, 0, 0 });
 				}
 				else
 				{
-					rex.setTile(0, x, y, RexTile{ 219, r, g, b, 0, 0, 0 });
+					rex.setTile(0, x, y, Tile{ 219, r, g, b, 0, 0, 0 });
 				}
 			}
 		}

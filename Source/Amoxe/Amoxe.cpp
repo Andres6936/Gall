@@ -65,7 +65,7 @@ namespace xp
 //===========================================================================================================//
 //    Loading an xp file                                                                                     //
 //===========================================================================================================//
-	RexImage::RexImage(std::string const& filename)
+	Image::Image(std::string const& filename)
 	{
 		typedef void* vp;
 		//Number of bytes in a tile. Not equal to sizeof(RexTile) due to padding.
@@ -108,7 +108,7 @@ namespace xp
 //===========================================================================================================//
 //    Saving an xp file                                                                                      //
 //===========================================================================================================//
-	void RexImage::save(std::string const& filename)
+	void Image::save(std::string const& filename)
 	{
 		typedef void* vp;
 		//Number of bytes in a tile. Not equal to sizeof(RexTile) due to padding.
@@ -142,7 +142,7 @@ namespace xp
 //===========================================================================================================//
 //    Constructors / Destructors                                                                             //
 //===========================================================================================================//
-	RexImage::RexImage(int _version, int _width, int _height, int _num_layers)
+	Image::Image(int _version, int _width, int _height, int _num_layers)
 			: version(_version), width(_width), height(_height), num_layers(_num_layers)
 	{
 		layers.resize(num_layers);
@@ -153,7 +153,7 @@ namespace xp
 			layers[l].resize(width * height);
 			for (int i = 0; i < width * height; ++i)
 			{
-				RexTile t = transparentTile();
+				Tile t = transparentTile();
 				setTile(l, i, t);
 			}
 		}
@@ -162,7 +162,7 @@ namespace xp
 //===========================================================================================================//
 //    Utility Functions                                                                                      //
 //===========================================================================================================//
-	void RexImage::flatten()
+	void Image::flatten()
 	{
 		if (num_layers == 1)
 			return;
@@ -170,7 +170,7 @@ namespace xp
 		//Paint the last layer onto the second-to-last
 		for (int i = 0; i < width * height; ++i)
 		{
-			RexTile* overlay = getTile(num_layers - 1, i);
+			Tile* overlay = getTile(num_layers - 1, i);
 			if (!isTransparent(overlay))
 			{
 				*getTile(num_layers - 2, i) = *overlay;
@@ -185,7 +185,7 @@ namespace xp
 	}
 
 
-	bool isTransparent(RexTile* tile)
+	bool isTransparent(Tile* tile)
 	{
 		//This might be faster than comparing with transparentTile(), despite it being a constexpr
 		return (tile->back_red == 255 && tile->back_green == 0 && tile->back_blue == 255);

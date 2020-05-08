@@ -9,7 +9,7 @@
 
 namespace xp
 {
-	using VectorTiles = std::vector<RexTile>;
+	using VectorTiles = std::vector<Tile>;
 
 	class Layer : public VectorTiles { };
 }

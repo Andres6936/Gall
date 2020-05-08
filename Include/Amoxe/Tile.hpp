@@ -19,7 +19,7 @@ namespace xp
 	using UInt32 = std::uint32_t;
 
 	//This struct matches the order and width of data in .xp tiles.
-	struct RexTile
+	struct Tile
 	{
 		//I don't know why a CP437 character should be 4 bytes wide, but thus sprach the manual.
 		UInt32 character;
