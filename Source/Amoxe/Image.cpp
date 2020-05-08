@@ -1,5 +1,5 @@
 #include "Amoxe/Image.hpp"
-#include "Amoxe/Exception/Exception.hpp"
+#include "Amoxe/Exception/GenericException.hpp"
 
 #include "Private/Compressable.hpp"
 #include "Private/Decompressable.hpp"
@@ -63,10 +63,10 @@ static gzFile s_gzopen(const std::string& filename, const char* permissions)
 	if (err == 0)
 	{
 		// Assume the file simply didn't exist.
-		throw Exception("File " + filename + " does not exist.");
+		throw GenericException("File " + filename + " does not exist.");
 	}
 
-	throw Exception(errstr);
+	throw GenericException(errstr);
 }
 
 

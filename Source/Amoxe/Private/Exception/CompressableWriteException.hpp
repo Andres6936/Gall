@@ -3,15 +3,15 @@
 #ifndef GALL_COMPRESSABLEWRITEEXCEPTION_HPP
 #define GALL_COMPRESSABLEWRITEEXCEPTION_HPP
 
-#include "Amoxe/Exception/Exception.hpp"
+#include "Amoxe/Exception/GenericException.hpp"
 
 namespace Amoxe
 {
-	class CompressableWriteException : public Exception
+	class CompressableWriteException : public GenericException
 	{
 	public:
 
-		CompressableWriteException() : Exception("CompressableWriteException") { }
+		CompressableWriteException() : GenericException("CompressableWriteException") { }
 	};
 }
 

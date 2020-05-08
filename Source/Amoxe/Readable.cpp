@@ -59,6 +59,6 @@ gzFile Amoxe::Readable::readFile(const std::string& filename)
 	}
 	else
 	{
-		throw Exception(std::move(messageError));
+		throw GenericException(std::move(messageError));
 	}
 }
