@@ -92,13 +92,13 @@ namespace Amoxe
 		{
 			gzFile gz = s_gzopen(filename, "wb");
 
-			Compressable::write(gz, (vp)&version, sizeof(version));
-			Compressable::write(gz, (vp)&num_layers, sizeof(num_layers));
+			Compressable::write(gz, &version, sizeof(version));
+			Compressable::write(gz, &num_layers, sizeof(num_layers));
 
 			for (int layer = 0; layer < num_layers; ++layer)
 			{
-				Compressable::write(gz, (vp)&width, sizeof(width));
-				Compressable::write(gz, (vp)&height, sizeof(height));
+				Compressable::write(gz, &width, sizeof(width));
+				Compressable::write(gz, &height, sizeof(height));
 
 				for (int i = 0; i < width * height; ++i)
 					//Note: not "sizeof(RexTile)" because of padding.
