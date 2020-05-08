@@ -11,6 +11,9 @@
 
 namespace Amoxe
 {
+
+	using VectorLayers = std::vector<Layer>;
+
 	//REXpaint identifies transparent tiles by setting their background color to 255,0,255.
 	//You may want to check this for each tile before drawing or converting a RexFile.
 	//(By default, no tile in the first layer is transaprent).
@@ -22,7 +25,7 @@ namespace Amoxe
 		return Tile{ 0, 0, 0, 0, 255, 0, 255 };
 	}
 
-	class Image final
+	class Image final : public VectorLayers
 	{
 
 	private:
@@ -32,9 +35,6 @@ namespace Amoxe
 		int width = 0;
 		int height = 0;
 		int num_layers = 0;
-
-		//layers[0] is the first layer.
-		std::vector<Layer> layers;
 
 	public:
 		//Load an .xp file into a new RexFile.
@@ -78,14 +78,14 @@ namespace Amoxe
 		//0,0 is the top-left corner.
 		Tile& getTile(int layer, int x, int y)
 		{
-			return layers[layer].at(y + (x * height));
+			return at(layer).at(y + (x * height));
 		};
 
 		//Returns a pointer to a single tile specified by layer and the actual index into the array.
 		//Useful for iterating through a whole layer in one go for coordinate-nonspecific tasks.
 		Tile& getTile(int layer, int index)
 		{
-			return layers[layer].at(index);
+			return at(layer).at(index);
 		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.

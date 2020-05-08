@@ -92,11 +92,11 @@ namespace Amoxe
 			Decompressable::read(gz, &width);
 			Decompressable::read(gz, &height);
 
-			layers.resize(num_layers);
+			resize(num_layers);
 
 			for (int i = 0; i < num_layers; i++)
 			{
-				layers[i].resize(width * height);
+				at(i).resize(width * height);
 			}
 
 			for (int layer_index = 0; layer_index < num_layers; layer_index++)
@@ -156,12 +156,13 @@ namespace Amoxe
 	Image::Image(int _version, int _width, int _height, int _num_layers)
 			: version(_version), width(_width), height(_height), num_layers(_num_layers)
 	{
-		layers.resize(num_layers);
+		resize(num_layers);
 
 		//All layers above the first are set transparent.
 		for (int l = 0; l < num_layers; l++)
 		{
-			layers[l].resize(width * height);
+			at(l).resize(width * height);
+
 			for (int i = 0; i < width * height; ++i)
 			{
 				Tile t = transparentTile();
