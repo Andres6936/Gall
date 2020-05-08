@@ -14,23 +14,20 @@ namespace Amoxe
 	//Custom exception class, mostly for zlib errors. Custom exception codes follow.
 	//This is needlessly verbose because I don't want to reference gzFiles
 	//in this header. Then users would have to include zlib.h.
-	class Rexception : public std::exception
+	class Exception : public std::exception
 	{
+	private:
+
+		const std::string message;
 
 	public:
 
-		Rexception(const std::string& msg, int errcode) : err(msg), code(errcode)
-		{
-		}
+		explicit Exception(std::string&& msg) : message(msg) { }
 
 		const char* what() const noexcept override
 		{
-			return err.c_str();
+			return message.data();
 		}
-
-		int code;
-	private:
-		std::string err;
 	};
 }
 

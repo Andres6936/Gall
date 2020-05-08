@@ -14,15 +14,6 @@
 
 using namespace Amoxe;
 
-static Amoxe::Rexception makeRexception(gzFile g)
-{
-	/*The exception creation is a bit verbose.*/
-	int errnum = 0;
-	const char* errstr = gzerror(g, &errnum);
-	Amoxe::Rexception e(errstr, errnum);
-	return e;
-}
-
 static gzFile s_gzopen(const std::string& filename, const char* permissions)
 {
 	gzFile g = gzopen(filename.c_str(), permissions);
@@ -34,13 +25,11 @@ static gzFile s_gzopen(const std::string& filename, const char* permissions)
 	const char* errstr = gzerror(g, &err);
 	if (err == 0)
 	{
-		/*Assume the file simply didn't exist.*/
-		std::string s("File " + filename + " does not exist.");
-		Amoxe::Rexception e(s, Amoxe::ERR_FILE_DOES_NOT_EXIST);
-		throw e;
+		// Assume the file simply didn't exist.
+		throw Exception("File " + filename + " does not exist.");
 	}
-	Amoxe::Rexception e(errstr, err);
-	throw e;
+
+	throw Exception(errstr);
 }
 
 
