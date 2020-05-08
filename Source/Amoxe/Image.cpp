@@ -20,30 +20,6 @@ static Amoxe::Rexception makeRexception(gzFile g)
 	return e;
 }
 
-static void s_gzread(gzFile g, voidp buf, unsigned int len)
-{
-	if (gzread(g, buf, len) > 0)
-		return;
-
-	/*We expect to read past the end of the file after the last layer.*/
-	if (gzeof(g))
-		return;
-
-	throw makeRexception(g);
-}
-
-static void s_gzread(gzFile g, Tile& buf, unsigned int len)
-{
-	if (gzread(g, reinterpret_cast<void *>(&buf), len) > 0)
-		return;
-
-	/*We expect to read past the end of the file after the last layer.*/
-	if (gzeof(g))
-		return;
-
-	throw makeRexception(g);
-}
-
 static void s_gzwrite(gzFile g, voidp buf, unsigned int len)
 {
 	if (gzwrite(g, buf, len) > 0)
@@ -98,10 +74,10 @@ namespace Amoxe
 		{
 			gz = s_gzopen(filename, "rb");
 
-			s_gzread(gz, (vp)&version, sizeof(version));
-			s_gzread(gz, (vp)&num_layers, sizeof(num_layers));
-			s_gzread(gz, (vp)&width, sizeof(width));
-			s_gzread(gz, (vp)&height, sizeof(height));
+			Decompressable::read(gz, (vp)&version, sizeof(version));
+			Decompressable::read(gz, (vp)&num_layers, sizeof(num_layers));
+			Decompressable::read(gz, (vp)&width, sizeof(width));
+			Decompressable::read(gz, (vp)&height, sizeof(height));
 
 			layers.resize(num_layers);
 
@@ -113,12 +89,12 @@ namespace Amoxe
 			for (int layer_index = 0; layer_index < num_layers; layer_index++)
 			{
 				for (int i = 0; i < width * height; ++i)
-					s_gzread(gz, getTile(layer_index, i), tileLen);
+					Decompressable::read(gz, getTile(layer_index, i), tileLen);
 
 				//The layer and height information is repeated.
 				//This is expected to read off the end after the last layer.
-				s_gzread(gz, (vp)&width, sizeof(width));
-				s_gzread(gz, (vp)&height, sizeof(height));
+				Decompressable::read(gz, (vp)&width, sizeof(width));
+				Decompressable::read(gz, (vp)&height, sizeof(height));
 			}
 		}
 		catch (...)

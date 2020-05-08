@@ -8,6 +8,7 @@
 
 #include "Tile.hpp"
 #include "Layer.hpp"
+#include "Decompressable.hpp"
 
 namespace Amoxe
 {
@@ -22,7 +23,7 @@ namespace Amoxe
 		return Tile{ 0, 0, 0, 0, 255, 0, 255 };
 	}
 
-	class Image
+	class Image final
 	{
 
 	private:
