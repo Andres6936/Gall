@@ -87,20 +87,20 @@ int main(int argc, char* argv[])
 			{
 				std::cerr << "The file <" << file.path().string() << "> no exist\n";
 			}
+		}
 
-			const int numberOfSha256Generated = sha256sumGenerated.first.size();
+		const int numberOfSha256Generated = sha256sumGenerated.first.size();
 
-			for (int i = 0; i < numberOfSha256Generated; ++i)
+		for (int i = 0; i < numberOfSha256Generated; ++i)
+		{
+			if (sha256sum.second[i] not_eq sha256sumGenerated.second[i])
 			{
-				if (sha256sum.second[i] not_eq sha256sumGenerated.second[i])
-				{
-					std::cerr << "The SHA256 for the file <" << sha256sum.first[i] << "> not is equals\n";
-					std::cerr << "The file <" << sha256sumGenerated.first[i] << "> is different\n";
-				}
-				else
-				{
-					std::cout << "Test passed\n";
-				}
+				std::cerr << "The SHA256 for the file <" << sha256sum.first[i] << "> not is equals\n";
+				std::cerr << "The file <" << sha256sumGenerated.first[i] << "> is different\n";
+			}
+			else
+			{
+				std::cout << "Test passed\n";
 			}
 		}
 	}
