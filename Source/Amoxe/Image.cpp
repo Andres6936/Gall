@@ -50,10 +50,10 @@ namespace Amoxe
 		{
 			gz = s_gzopen(filename, "rb");
 
-			Decompressable::read(gz, (vp)&version, sizeof(version));
-			Decompressable::read(gz, (vp)&num_layers, sizeof(num_layers));
-			Decompressable::read(gz, (vp)&width, sizeof(width));
-			Decompressable::read(gz, (vp)&height, sizeof(height));
+			Decompressable::read(gz, &version);
+			Decompressable::read(gz, &num_layers);
+			Decompressable::read(gz, &width);
+			Decompressable::read(gz, &height);
 
 			layers.resize(num_layers);
 
@@ -69,8 +69,8 @@ namespace Amoxe
 
 				//The layer and height information is repeated.
 				//This is expected to read off the end after the last layer.
-				Decompressable::read(gz, (vp)&width, sizeof(width));
-				Decompressable::read(gz, (vp)&height, sizeof(height));
+				Decompressable::read(gz, &width);
+				Decompressable::read(gz, &height);
 			}
 		}
 		catch (...)

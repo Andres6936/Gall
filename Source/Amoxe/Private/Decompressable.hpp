@@ -25,6 +25,11 @@ namespace Amoxe
 			throw DecompressableWriteException();
 		}
 
+		static void read(gzFile gz, void * buffer)
+		{
+			read(gz, buffer, sizeof(buffer));
+		}
+
 		template <typename Object>
 		static void read(gzFile g, Object& object, unsigned int length)
 		{
