@@ -1,10 +1,10 @@
 /*For version 1.02 of REXPaint*/
 #pragma once
 
-#include <iostream>
-#include <stdint.h>
 #include <array>
 #include <vector>
+#include <cstdint>
+#include <iostream>
 
 #include "Tile.hpp"
 #include "Layer.hpp"
@@ -104,33 +104,4 @@ namespace xp
 		//Respects transparency.
 		void flatten();
 	};
-
-	//Custom exception class, mostly for zlib errors. Custom exception codes follow.
-	//This is needlessly verbose because I don't want to reference gzFiles
-	//in this header. Then users would have to include zlib.h.
-	class Rexception : public std::exception
-	{
-	public:
-		Rexception(std::string msg, int errcode) : err(msg), code(errcode)
-		{
-		}
-
-		~Rexception()
-		{
-		}
-
-		virtual const char* what() const throw()
-		{
-			return err.c_str();
-		}
-
-		int code;
-	private:
-		std::string err;
-	};
-
-	//The error code thrown when a file does not exist. Strangely, gzopen does not set an error code.
-	constexpr int ERR_FILE_DOES_NOT_EXIST = 20202;
-	//The error code thrown when a RexImage is found to not have a number of layers i, 1 <= i <= 4.
-	constexpr int ERR_INVALID_NUMBER_OF_LAYERS = 20203;
 }

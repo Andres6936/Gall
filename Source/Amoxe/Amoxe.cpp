@@ -1,4 +1,6 @@
 #include "Amoxe/Amoxe.hpp"
+#include "Amoxe/Exception/Exception.hpp"
+
 #include <zlib.h>
 
 //===========================================================================================================//

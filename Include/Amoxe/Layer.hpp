@@ -9,9 +9,14 @@
 
 namespace xp
 {
-	struct RexLayer
+	class RexLayer
 	{
+
+	public:
+
 		std::vector<RexTile> tiles;
+
+		RexLayer() = default;
 
 		RexLayer(int width, int height);
 	};
