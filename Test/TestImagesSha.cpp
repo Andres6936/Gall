@@ -64,8 +64,6 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		boost::process::ipstream readerPipe;
-
 		const std::string commandSha256sum = "/usr/bin/sha256sum";
 
 		for (const std::string& filename : filenameOutput)
@@ -74,11 +72,14 @@ int main(int argc, char* argv[])
 
 			if(file.exists() and file.is_regular_file())
 			{
+				boost::process::ipstream readerPipe;
 				boost::process::child child(commandSha256sum, file.path().string(), boost::process::std_out > readerPipe);
-				std::string result;
-				std::getline(readerPipe, result);
-				std::cout << result << " file " << filename << "\n";
 				child.wait();
+				std::string result;
+				readerPipe >> result;
+				std::cout << result << "\n";
+				result.clear();
+				child.terminate();
 			}
 			else
 			{
