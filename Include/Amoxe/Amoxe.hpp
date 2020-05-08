@@ -34,7 +34,7 @@ namespace xp
 		int num_layers = 0;
 
 		//layers[0] is the first layer.
-		std::vector<RexLayer> layers;
+		std::vector<Layer> layers;
 
 	public:
 		//Load an .xp file into a new RexFile.
@@ -78,14 +78,14 @@ namespace xp
 		//0,0 is the top-left corner.
 		inline RexTile* getTile(int layer, int x, int y)
 		{
-			return &layers[layer].tiles[y + (x * height)];
+			return &layers[layer].at(y + (x * height));
 		};
 
 		//Returns a pointer to a single tile specified by layer and the actual index into the array.
 		//Useful for iterating through a whole layer in one go for coordinate-nonspecific tasks.
 		inline RexTile* getTile(int layer, int index)
 		{
-			return &layers[layer].tiles[index];
+			return &layers[layer].at(index);
 		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.

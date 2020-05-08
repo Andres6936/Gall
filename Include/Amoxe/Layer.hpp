@@ -9,17 +9,9 @@
 
 namespace xp
 {
-	class RexLayer
-	{
+	using VectorTiles = std::vector<RexTile>;
 
-	public:
-
-		std::vector<RexTile> tiles;
-
-		RexLayer() = default;
-
-		RexLayer(int width, int height);
-	};
+	class Layer : public VectorTiles { };
 }
 
 #endif //GALL_LAYER_HPP

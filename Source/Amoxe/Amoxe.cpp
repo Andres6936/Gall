@@ -84,7 +84,9 @@ namespace xp
 			layers.resize(num_layers);
 
 			for (int i = 0; i < num_layers; i++)
-				layers[i] = RexLayer(width, height);
+			{
+				layers[i].resize(width * height);
+			}
 
 			for (int layer_index = 0; layer_index < num_layers; layer_index++)
 			{
@@ -148,7 +150,7 @@ namespace xp
 		//All layers above the first are set transparent.
 		for (int l = 0; l < num_layers; l++)
 		{
-			layers[l].tiles.resize(width * height);
+			layers[l].resize(width * height);
 			for (int i = 0; i < width * height; ++i)
 			{
 				RexTile t = transparentTile();
