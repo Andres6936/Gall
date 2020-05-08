@@ -5,6 +5,8 @@
 
 #include <zlib.h>
 
+#include "Exception/CompressableWriteException.hpp"
+
 namespace Amoxe
 {
 	class Compressable
@@ -15,7 +17,7 @@ namespace Amoxe
 		{
 			if (gzwrite(gz, buf, length) > 0) return;
 
-			throw "DecompressableWriteExcption";
+			throw CompressableWriteException();
 		}
 
 		template <typename Object>

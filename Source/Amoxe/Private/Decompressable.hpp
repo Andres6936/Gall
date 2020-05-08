@@ -5,6 +5,8 @@
 
 #include <zlib.h>
 
+#include "Exception/DecompressableWriteException.hpp"
+
 namespace Amoxe
 {
 	class Decompressable
@@ -15,10 +17,12 @@ namespace Amoxe
 		{
 			if (gzread(gz, buffer, length) > 0) return;
 
-			/*We expect to read past the end of the file after the last layer.*/
+			// We expect to read past
+			// the end of the file
+			// after the last layer.
 			if (gzeof(gz)) return;
 
-			throw "CompressableReadException";
+			throw DecompressableWriteException();
 		}
 
 		template <typename Object>
