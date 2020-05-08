@@ -16,6 +16,9 @@ using namespace Amoxe;
 
 static gzFile s_gzopen(const std::string& filename, const char* permissions)
 {
+	static_assert(ZLIB_VERNUM >= 0x1280,
+			"Version of ZLib is very old, please update your version of ZLib");
+
 	gzFile g = gzopen(filename.c_str(), permissions);
 
 	if (g != Z_NULL)
