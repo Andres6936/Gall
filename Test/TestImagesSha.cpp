@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 	std::vector<fs::path> filenamesMD;
 	std::vector<std::string> filenameOutput;
 	std::pair<VectorString, VectorString> sha256sum;
+	std::pair<VectorString, VectorString> sha256sumGenerated;
 
 	if (directory.exists() and directory.is_directory())
 	{
@@ -77,13 +78,29 @@ int main(int argc, char* argv[])
 				child.wait();
 				std::string result;
 				readerPipe >> result;
-				std::cout << result << "\n";
-				result.clear();
 				child.terminate();
+
+				sha256sumGenerated.first.push_back(file.path().string());
+				sha256sumGenerated.second.push_back(result);
 			}
 			else
 			{
 				std::cerr << "The file <" << file.path().string() << "> no exist\n";
+			}
+
+			const int numberOfSha256Generated = sha256sumGenerated.first.size();
+
+			for (int i = 0; i < numberOfSha256Generated; ++i)
+			{
+				if (sha256sum.second[i] not_eq sha256sumGenerated.second[i])
+				{
+					std::cerr << "The SHA256 for the file <" << sha256sum.first[i] << "> not is equals\n";
+					std::cerr << "The file <" << sha256sumGenerated.first[i] << "> is different\n";
+				}
+				else
+				{
+					std::cout << "Test passed\n";
+				}
 			}
 		}
 	}
