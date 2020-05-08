@@ -9,6 +9,8 @@
 //   These functions will throw an error message from gzerror, and set errno to the error code.              //
 //===========================================================================================================//
 
+using namespace Amoxe;
+
 static Amoxe::Rexception makeRexception(gzFile g)
 {
 	/*The exception creation is a bit verbose.*/
@@ -30,9 +32,29 @@ static void s_gzread(gzFile g, voidp buf, unsigned int len)
 	throw makeRexception(g);
 }
 
+static void s_gzread(gzFile g, Tile& buf, unsigned int len)
+{
+	if (gzread(g, reinterpret_cast<void *>(&buf), len) > 0)
+		return;
+
+	/*We expect to read past the end of the file after the last layer.*/
+	if (gzeof(g))
+		return;
+
+	throw makeRexception(g);
+}
+
 static void s_gzwrite(gzFile g, voidp buf, unsigned int len)
 {
 	if (gzwrite(g, buf, len) > 0)
+		return;
+
+	throw makeRexception(g);
+}
+
+static void s_gzwrite(gzFile g, Tile& buf, unsigned int len)
+{
+	if (gzwrite(g,  reinterpret_cast<void *>(&buf), len) > 0)
 		return;
 
 	throw makeRexception(g);
@@ -128,7 +150,7 @@ namespace Amoxe
 
 				for (int i = 0; i < width * height; ++i)
 					//Note: not "sizeof(RexTile)" because of padding.
-					s_gzwrite(gz, (vp)getTile(layer, i), tileLen);
+					s_gzwrite(gz, getTile(layer, i), tileLen);
 
 			}
 
@@ -170,10 +192,11 @@ namespace Amoxe
 		//Paint the last layer onto the second-to-last
 		for (int i = 0; i < width * height; ++i)
 		{
-			Tile* overlay = getTile(num_layers - 1, i);
+			Tile overlay = getTile(num_layers - 1, i);
+
 			if (!isTransparent(overlay))
 			{
-				*getTile(num_layers - 2, i) = *overlay;
+				getTile(num_layers - 2, i) = overlay;
 			}
 		}
 
@@ -185,9 +208,9 @@ namespace Amoxe
 	}
 
 
-	bool isTransparent(Tile* tile)
+	bool isTransparent(const Tile& tile)
 	{
 		//This might be faster than comparing with transparentTile(), despite it being a constexpr
-		return (tile->back_red == 255 && tile->back_green == 0 && tile->back_blue == 255);
+		return tile.back_red == 255 and tile.back_green == 0 and tile.back_blue == 255;
 	}
 }

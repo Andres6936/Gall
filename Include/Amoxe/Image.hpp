@@ -14,7 +14,7 @@ namespace Amoxe
 	//REXpaint identifies transparent tiles by setting their background color to 255,0,255.
 	//You may want to check this for each tile before drawing or converting a RexFile.
 	//(By default, no tile in the first layer is transaprent).
-	inline bool isTransparent(Tile* tile);
+	inline bool isTransparent(const Tile& tile);
 
 	//Returns a transparent tile.
 	constexpr Tile transparentTile()
@@ -76,28 +76,28 @@ namespace Amoxe
 
 		//Returns a pointer to a single tile specified by layer, x coordinate, y coordinate.
 		//0,0 is the top-left corner.
-		inline Tile* getTile(int layer, int x, int y)
+		Tile& getTile(int layer, int x, int y)
 		{
-			return &layers[layer].at(y + (x * height));
+			return layers[layer].at(y + (x * height));
 		};
 
 		//Returns a pointer to a single tile specified by layer and the actual index into the array.
 		//Useful for iterating through a whole layer in one go for coordinate-nonspecific tasks.
-		inline Tile* getTile(int layer, int index)
+		Tile& getTile(int layer, int index)
 		{
-			return &layers[layer].at(index);
+			return layers[layer].at(index);
 		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.
-		inline void setTile(int layer, int x, int y, Tile val)
+		void setTile(int layer, int x, int y, const Tile& val)
 		{
-			*getTile(layer, x, y) = val;
+			getTile(layer, x, y) = val;
 		};
 
 		//Replaces the data for a tile. Not super necessary, but might save you a couple lines.
-		inline void setTile(int layer, int i, Tile& val)
+		void setTile(int layer, int i, const Tile& val)
 		{
-			*getTile(layer, i) = val;
+			getTile(layer, i) = val;
 		};
 
 		//Combines all the layers of the image into one layer.
