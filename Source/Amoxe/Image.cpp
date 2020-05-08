@@ -1,8 +1,8 @@
 #include "Amoxe/Image.hpp"
 #include "Amoxe/Exception/Exception.hpp"
 
-#include "Amoxe/Compressable.hpp"
-#include "Amoxe/Decompressable.hpp"
+#include "Private/Compressable.hpp"
+#include "Private/Decompressable.hpp"
 
 #include <zlib.h>
 
