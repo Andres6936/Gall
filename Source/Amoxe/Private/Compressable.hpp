@@ -5,11 +5,12 @@
 
 #include <zlib.h>
 
+#include "Writeable.hpp"
 #include "Exception/CompressableWriteException.hpp"
 
 namespace Amoxe
 {
-	class Compressable
+	class Compressable : public Writable
 	{
 	public:
 

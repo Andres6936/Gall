@@ -127,7 +127,7 @@ namespace Amoxe
 
 		try
 		{
-			gzFile gz = s_gzopen(filename, "wb");
+			gzFile gz = Compressable::writeFile(filename);
 
 			Compressable::write(gz, &version, sizeof(version));
 			Compressable::write(gz, &num_layers, sizeof(num_layers));
