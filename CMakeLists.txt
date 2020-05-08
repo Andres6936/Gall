@@ -7,6 +7,7 @@ ADD_EXECUTABLE(Gall
         Source/Gall/main.cpp
         Source/Loader/PngLoader.cpp
         Source/Amoxe/Image.cpp
+        Source/Amoxe/Readable.cpp
         )
 SET_TARGET_PROPERTIES(Gall PROPERTIES CXX_STANDARD 11)
 

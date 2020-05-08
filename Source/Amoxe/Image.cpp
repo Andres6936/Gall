@@ -85,7 +85,7 @@ namespace Amoxe
 		gzFile gz;
 		try
 		{
-			gz = s_gzopen(filename, "rb");
+			gz = Decompressable::readFile(filename);
 
 			Decompressable::read(gz, &version);
 			Decompressable::read(gz, &num_layers);

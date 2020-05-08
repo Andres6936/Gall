@@ -5,11 +5,12 @@
 
 #include <zlib.h>
 
+#include "Readable.hpp"
 #include "Exception/DecompressableWriteException.hpp"
 
 namespace Amoxe
 {
-	class Decompressable
+	class Decompressable : public Readable
 	{
 	public:
 
