@@ -6,7 +6,7 @@ INCLUDE_DIRECTORIES(./Include/)
 ADD_EXECUTABLE(Gall
         Source/Gall/main.cpp
         Source/Loader/PngLoader.cpp
-        Source/Amoxe/Amoxe.cpp
+        Source/Amoxe/Image.cpp
         )
 SET_TARGET_PROPERTIES(Gall PROPERTIES CXX_STANDARD 11)
 

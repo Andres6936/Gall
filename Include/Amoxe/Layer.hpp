@@ -7,7 +7,7 @@
 
 #include "Tile.hpp"
 
-namespace xp
+namespace Amoxe
 {
 	using VectorTiles = std::vector<Tile>;
 

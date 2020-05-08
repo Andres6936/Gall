@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include "Loader/PngLoader.hpp"
-#include "Amoxe/Amoxe.hpp"
+#include "Amoxe/Image.hpp"
 
-using namespace xp;
+using namespace Amoxe;
 
 constexpr int rex_version = -1;
 

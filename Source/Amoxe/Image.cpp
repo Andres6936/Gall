@@ -1,4 +1,4 @@
-#include "Amoxe/Amoxe.hpp"
+#include "Amoxe/Image.hpp"
 #include "Amoxe/Exception/Exception.hpp"
 
 #include <zlib.h>
@@ -9,12 +9,12 @@
 //   These functions will throw an error message from gzerror, and set errno to the error code.              //
 //===========================================================================================================//
 
-static xp::Rexception makeRexception(gzFile g)
+static Amoxe::Rexception makeRexception(gzFile g)
 {
 	/*The exception creation is a bit verbose.*/
 	int errnum = 0;
 	const char* errstr = gzerror(g, &errnum);
-	xp::Rexception e(errstr, errnum);
+	Amoxe::Rexception e(errstr, errnum);
 	return e;
 }
 
@@ -51,15 +51,15 @@ static gzFile s_gzopen(const std::string& filename, const char* permissions)
 	{
 		/*Assume the file simply didn't exist.*/
 		std::string s("File " + filename + " does not exist.");
-		xp::Rexception e(s, xp::ERR_FILE_DOES_NOT_EXIST);
+		Amoxe::Rexception e(s, Amoxe::ERR_FILE_DOES_NOT_EXIST);
 		throw e;
 	}
-	xp::Rexception e(errstr, err);
+	Amoxe::Rexception e(errstr, err);
 	throw e;
 }
 
 
-namespace xp
+namespace Amoxe
 {
 
 //===========================================================================================================//

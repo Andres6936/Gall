@@ -3,7 +3,7 @@
 #ifndef GALL_EXCEPTION_HPP
 #define GALL_EXCEPTION_HPP
 
-namespace xp
+namespace Amoxe
 {
 
 	//The error code thrown when a file does not exist. Strangely, gzopen does not set an error code.

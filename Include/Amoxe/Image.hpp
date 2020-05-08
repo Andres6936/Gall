@@ -9,7 +9,7 @@
 #include "Tile.hpp"
 #include "Layer.hpp"
 
-namespace xp
+namespace Amoxe
 {
 	//REXpaint identifies transparent tiles by setting their background color to 255,0,255.
 	//You may want to check this for each tile before drawing or converting a RexFile.

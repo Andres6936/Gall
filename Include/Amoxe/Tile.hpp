@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-namespace xp
+namespace Amoxe
 {
 
 	/**
