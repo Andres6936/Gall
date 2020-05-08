@@ -11,7 +11,7 @@ namespace Amoxe
 {
 	using VectorTiles = std::vector<Tile>;
 
-	class Layer : public VectorTiles { };
+	class Layer final : public VectorTiles { };
 }
 
 #endif //GALL_LAYER_HPP
