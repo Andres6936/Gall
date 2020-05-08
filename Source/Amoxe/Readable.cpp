@@ -1,6 +1,7 @@
 // Design by Joan Andrés.
 
 #include "Private/Readable.hpp"
+#include "Private/Exception/FileNotExistException.hpp"
 
 gzFile Amoxe::Readable::readFile(const std::string& filename)
 {
@@ -44,4 +45,20 @@ gzFile Amoxe::Readable::readFile(const std::string& filename)
 	gzFile g = gzopen(filename.data(), "rb");
 
 	if (g not_eq nullptr) return g;
+
+	// If the execution pass for this point,
+	// will be necessary generate a exception
+	// for explain to user the actions to take.
+	int errorCode = 0;
+
+	std::string messageError = gzerror(g, &errorCode);
+
+	if (errorCode == 0)
+	{
+		throw FileNotExistException(std::move(messageError));
+	}
+	else
+	{
+		throw Exception(std::move(messageError));
+	}
 }
