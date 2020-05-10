@@ -8,9 +8,9 @@ ADD_EXECUTABLE(Gall
         Source/Loader/PNG.cpp
         Source/Amoxe/Image.cpp
         Source/Amoxe/Readable.cpp
-        Source/Amoxe/Writable.cpp
-        )
-SET_TARGET_PROPERTIES(Gall PROPERTIES CXX_STANDARD 11)
+        Source/Amoxe/Writable.cpp)
+
+SET_TARGET_PROPERTIES(Gall PROPERTIES CXX_STANDARD 17)
 
 # We depend upon zlib
 FIND_PACKAGE(ZLIB REQUIRED)

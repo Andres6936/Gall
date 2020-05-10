@@ -5,6 +5,7 @@
 #include <tuple>
 #include <vector>
 #include <string>
+#include <string_view>
 
 class PNG
 {
@@ -23,7 +24,7 @@ public:
 
 	PNG() noexcept = default;
 
-	bool load(std::string file);
+	bool load(std::string_view file);
 
 	const std::vector<unsigned char>& getData() const
 	{

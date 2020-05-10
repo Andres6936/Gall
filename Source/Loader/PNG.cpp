@@ -7,12 +7,12 @@
 
 void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 
-bool PNG::load(std::string file)
+bool PNG::load(std::string_view file)
 {
 	png_structp png_ptr;
 	png_infop info_ptr;
 
-	std::ifstream ifile(file.c_str(), std::ios::binary);
+	std::ifstream ifile(file.data(), std::ios::binary);
 
 	if (!ifile.is_open())
 		return false;
