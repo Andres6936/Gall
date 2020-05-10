@@ -24,7 +24,14 @@ public:
 
 	PNG() noexcept = default;
 
-	bool load(std::string_view file);
+	/**
+	 * The result of function determine if the image
+	 * has been loaded correctly.
+	 *
+	 * @param file Filename of file with extension .png
+	 * @return True if the file is correctly loaded.
+	 */
+	[[nodiscard]] bool load(std::string_view file);
 
 	const std::vector<unsigned char>& getData() const
 	{

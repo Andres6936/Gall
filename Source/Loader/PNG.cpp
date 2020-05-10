@@ -14,13 +14,13 @@ bool PNG::load(std::string_view file)
 
 	std::ifstream ifile(file.data(), std::ios::binary);
 
-	if (!ifile.is_open())
-		return false;
+	if (not ifile.is_open()) return false;
 
-	char assinatura[8];
-	ifile.read(&assinatura[0], 8 * sizeof(char));
+	char magicNumber[8];
 
-	if (!png_check_sig((png_bytep)assinatura, 8))
+	ifile.read(&magicNumber[0], 8 * sizeof(char));
+
+	if (!png_check_sig(reinterpret_cast<png_bytep>(magicNumber), 8))
 	{
 		return false;
 	}
