@@ -5,7 +5,7 @@ INCLUDE_DIRECTORIES(./Include/)
 
 ADD_EXECUTABLE(Gall
         Source/Gall/main.cpp
-        Source/Loader/PngLoader.cpp
+        Source/Loader/PNG.cpp
         Source/Amoxe/Image.cpp
         Source/Amoxe/Readable.cpp
         Source/Amoxe/Writable.cpp

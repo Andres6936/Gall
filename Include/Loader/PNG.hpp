@@ -4,12 +4,26 @@
 #include <png.h>
 #include <tuple>
 
-class PngLoader
+class PNG
 {
-public:
-	PngLoader();
 
-	~PngLoader();
+private:
+
+	char* data;
+
+	int width;
+	int height;
+	int depth;
+	int color_type;
+	png_size_t cols;
+
+	void release();
+
+public:
+
+	PNG();
+
+	~PNG();
 
 	bool load(std::string file);
 
@@ -39,15 +53,4 @@ public:
 	}
 
 	std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> getPixelAt(const int& x, const int& y);
-
-private:
-	void release();
-
-	char* data;
-	int width;
-	int height;
-	int depth;
-	int color_type;
-
-	png_size_t cols;
 };

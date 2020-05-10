@@ -1,4 +1,4 @@
-#include "Loader/PngLoader.hpp"
+#include "Loader/PNG.hpp"
 
 #include <fstream>
 #include <string>
@@ -7,12 +7,12 @@
 
 void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 
-PngLoader::PngLoader(void)
+PNG::PNG(void)
 		: data(0)
 {
 }
 
-bool PngLoader::load(std::string file)
+bool PNG::load(std::string file)
 {
 	png_structp png_ptr;
 	png_infop info_ptr;
@@ -73,14 +73,14 @@ bool PngLoader::load(std::string file)
 	return true;
 }
 
-void PngLoader::release()
+void PNG::release()
 {
 	if (data)
 		delete[] data;
 	data = 0;
 }
 
-PngLoader::~PngLoader(void)
+PNG::~PNG(void)
 {
 	release();
 }
@@ -99,7 +99,7 @@ void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count)
 	ifs.read((char*)out, count);
 }
 
-std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> PngLoader::getPixelAt(const int& x, const int& y)
+std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> PNG::getPixelAt(const int& x, const int& y)
 {
 	const int idx = (y * cols) + (x * 4);
 	const uint8_t red = (uint8_t)data[idx];

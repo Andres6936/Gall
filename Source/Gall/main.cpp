@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Loader/PngLoader.hpp"
+#include "Loader/PNG.hpp"
 #include "Amoxe/Image.hpp"
 
 using namespace Amoxe;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
 	std::cout << "Converting " << input_file << " to " << output_file << "\n";
 
-	PngLoader png;
+	PNG png;
 	png.load(input_file);
 
 	const int width = png.getWidth();
