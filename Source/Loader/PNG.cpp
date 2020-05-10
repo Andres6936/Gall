@@ -52,7 +52,9 @@ bool PNG::load(std::string file)
 	cols = png_get_rowbytes(png_ptr, info_ptr);
 
 	png_bytepp row_pp = new png_bytep[height];
-	data = new char[cols * height];
+
+	// We avoid clear the vector (performance) and resize for overwrite
+	data.resize(cols * height);
 
 	for (int i = 0; i < height; ++i)
 	{
@@ -66,11 +68,6 @@ bool PNG::load(std::string file)
 
 	delete[] row_pp;
 	return true;
-}
-
-PNG::~PNG(void)
-{
-	delete[] data;
 }
 
 void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count)
@@ -90,10 +87,11 @@ void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count)
 std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> PNG::getPixelAt(const int& x, const int& y)
 {
 	const int idx = (y * cols) + (x * 4);
-	const uint8_t red = (uint8_t)data[idx];
-	const uint8_t green = (uint8_t)data[idx + 1];
-	const uint8_t blue = (uint8_t)data[idx + 2];
-	const uint8_t alpha = (uint8_t)data[idx + 3];
+
+	const uint8_t red = data[idx];
+	const uint8_t green = data[idx + 1];
+	const uint8_t blue = data[idx + 2];
+	const uint8_t alpha = data[idx + 3];
 
 	return std::make_tuple(red, green, blue, alpha);
 }

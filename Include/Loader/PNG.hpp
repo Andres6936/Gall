@@ -1,15 +1,17 @@
 #pragma once
 
-#include <string>
 #include <png.h>
+
 #include <tuple>
+#include <vector>
+#include <string>
 
 class PNG
 {
 
 private:
 
-	char* data = nullptr;
+	std::vector<unsigned char> data;
 
 	int width = 0;
 	int height = 0;
@@ -21,11 +23,9 @@ public:
 
 	PNG() noexcept = default;
 
-	~PNG();
-
 	bool load(std::string file);
 
-	const char* getData() const
+	const std::vector<unsigned char>& getData() const
 	{
 		return data;
 	}
