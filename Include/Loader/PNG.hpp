@@ -9,19 +9,17 @@ class PNG
 
 private:
 
-	char* data;
+	char* data = nullptr;
 
-	int width;
-	int height;
-	int depth;
-	int color_type;
-	png_size_t cols;
-
-	void release();
+	int width = 0;
+	int height = 0;
+	int depth = 0;
+	int color_type = 0;
+	png_size_t cols = 0;
 
 public:
 
-	PNG();
+	PNG() noexcept = default;
 
 	~PNG();
 

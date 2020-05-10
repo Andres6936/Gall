@@ -7,11 +7,6 @@
 
 void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 
-PNG::PNG(void)
-		: data(0)
-{
-}
-
 bool PNG::load(std::string file)
 {
 	png_structp png_ptr;
@@ -73,16 +68,9 @@ bool PNG::load(std::string file)
 	return true;
 }
 
-void PNG::release()
-{
-	if (data)
-		delete[] data;
-	data = 0;
-}
-
 PNG::~PNG(void)
 {
-	release();
+	delete[] data;
 }
 
 void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count)
