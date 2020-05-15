@@ -4,3 +4,6 @@
 ### JetBrains
 .idea/
 cmake-build-debug/
+
+### Project
+*.xp

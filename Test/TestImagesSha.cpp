@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 #include <iostream>
-#include <fstream>
 #include <filesystem>
 #include <boost/process.hpp>
 #include <boost/process/io.hpp>
@@ -17,38 +16,39 @@ int main(int argc, char* argv[])
 
 	fs::path images = L"../Test/Images/";
 	fs::directory_entry directory(images);
-	std::vector<fs::path> filenames;
-	std::vector<fs::path> filenamesPNG;
-	std::vector<fs::path> filenamesMD;
+	std::vector<fs::path> pngFiles;
+	std::vector<fs::path> markdownFiles;
 	std::vector<std::string> filenameOutput;
 	std::pair<VectorString, VectorString> sha256sum;
 	std::pair<VectorString, VectorString> sha256sumGenerated;
 
 	if (directory.exists() and directory.is_directory())
 	{
+		std::vector<fs::path> filenamesInDirectory;
+
 		for (const fs::directory_entry& entry : fs::directory_iterator(directory))
 		{
-			filenames.push_back(entry.path());
+			filenamesInDirectory.push_back(entry.path());
 		}
 
-		for (const fs::path& file: filenames)
+		for (const fs::path& file: filenamesInDirectory)
 		{
 			if (file.extension() == ".png")
 			{
-				filenamesPNG.push_back(file);
-				filenamesMD.push_back(fs::path(file).replace_extension(".md"));
+				pngFiles.push_back(file);
+				markdownFiles.push_back(fs::path(file).replace_extension(".md"));
 				filenameOutput.push_back(file.filename().string() + ".xp");
 			}
 		}
 
 		const std::string executable = "Gall";
 
-		for (int i = 0; i < filenamesPNG.size(); ++i)
+		for (int i = 0; i < pngFiles.size(); ++i)
 		{
-			boost::process::system(executable, filenamesPNG[i].string(), filenameOutput[i]);
+			boost::process::system(executable, pngFiles[i].string());
 		}
 
-		for (const fs::path& file: filenamesMD)
+		for (const fs::path& file: markdownFiles)
 		{
 			std::ifstream reader(file);
 
