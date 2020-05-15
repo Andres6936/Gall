@@ -10,7 +10,7 @@ void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 bool PNG::load(std::string_view file)
 {
 	static_assert(PNG_LIBPNG_VER >= 10254,
-			"Version of Png.h library is very old, please update your version.");
+			"Version of Libpng library is very old, please update your version.");
 
 	std::ifstream readerFile(file.data(), std::ios::binary);
 
@@ -22,7 +22,7 @@ bool PNG::load(std::string_view file)
 
 	if (not readerFile.is_open())
 	{
-		std::cerr << "Error while opening the file.\n\n";
+		std::cerr << "Error while opening the file.\n";
 		std::cerr << "The file not exist.\n\n";
 		return false;
 	}
@@ -36,7 +36,8 @@ bool PNG::load(std::string_view file)
 
 	if ( not png_check_sig(reinterpret_cast<png_bytep>(magicNumber), 8))
 	{
-		std::cerr << "The file not is png.\n\n";
+		std::cerr << "The file not coincide with a png.\n";
+		std::cerr << "The signature not coincide with 8 first bits.\n\n";
 		return false;
 	}
 
@@ -66,9 +67,17 @@ bool PNG::load(std::string_view file)
 	}
 
 	png_set_read_fn(png_ptr, reinterpret_cast<void*>(&readerFile), readFileCallback);
-
+	// png_set_sig_bytes() lets libpng know that we already checked the 8 signature
+	// bytes, so it should not expect to find them at the current file pointer location.
 	png_set_sig_bytes(png_ptr, 8);
-
+	// png_read_info() is the first libpng call we've seen that does any real work.
+	// It reads and processes not only the PNG file's IHDR chunk but also any other
+	// chunks up to the first IDAT (i.e., everything before the image data). For
+	// colormapped images this includes the PLTE chunk and possibly tRNS and bKGD
+	// chunks. It typically also includes a gAMA chunk; perhaps cHRM, sRGB, or iCCP;
+	// and often tIME and some tEXt chunks. All this information is stored in the
+	// information struct and some in the PNG struct, too, but for now, all we care
+	// about is the contents of IHDR--specifically, the image width and height:
 	png_read_info(png_ptr, info_ptr);
 
 	png_get_IHDR(png_ptr, info_ptr, (png_uint_32*)&width, (png_uint_32*)&height,
