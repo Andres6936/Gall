@@ -1,34 +1,25 @@
 #include <iostream>
 #include <string>
+
+#include "Gall/Gall.hpp"
 #include "Loader/PNG.hpp"
 #include "Amoxe/Image.hpp"
 
 using namespace Amoxe;
 
-constexpr int rex_version = -1;
-
-int main(int argc, char* argv[])
+void Gall::convert(std::string_view pathPng)
 {
-	if (argc < 3)
-	{
-		std::cout << "Gall usage: ./Gall <pngfile> <rexfile>\n";
-		return 1;
-	}
-
-	std::string input_file = std::string(argv[1]);
-	std::string output_file = std::string(argv[2]);
-
-	std::cout << "Converting " << input_file << " to " << output_file << "\n";
+	const int REX_VERSION = -1;
 
 	PNG png;
 
-	if (png.load(input_file))
+	if (png.load(pathPng))
 	{
 		const int width = png.getWidth();
 		const int height = png.getHeight();
 		std::cout << "Original image is " << width << "x" << height << " pixels\n";
 
-		Image rex{ rex_version, width, height, 1 };
+		Image rex{ REX_VERSION, width, height, 1 };
 		for (int y = 0; y < height; ++y)
 		{
 			for (int x = 0; x < width; ++x)
@@ -66,7 +57,10 @@ int main(int argc, char* argv[])
 			}
 		}
 		rex.flatten();
-		rex.save(output_file.c_str());
+
+		// Save the file with the same name of input,
+		// but extension .xp
+		rex.save(std::string(pathPng) + ".xp");
 
 		std::cout << "Done\n";
 	}
@@ -74,6 +68,15 @@ int main(int argc, char* argv[])
 	{
 		std::cerr << "Error load the image.\n";
 	}
+}
 
-	return 0;
+int main(int argc, char* argv[])
+{
+	if (argc < 2)
+	{
+		std::cerr << "Gall usage: ./Gall <pngfile>\n";
+		return 1;
+	}
+
+	Gall::convert(std::string(argv[1]));
 }

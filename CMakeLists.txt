@@ -4,7 +4,7 @@ PROJECT(Gall VERSION 2020.5.3 LANGUAGES CXX)
 INCLUDE_DIRECTORIES(./Include/)
 
 ADD_EXECUTABLE(Gall
-        Source/Gall/main.cpp
+        Source/Gall/Gall.cpp
         Source/Loader/PNG.cpp
         Source/Amoxe/Image.cpp
         Source/Amoxe/Readable.cpp
