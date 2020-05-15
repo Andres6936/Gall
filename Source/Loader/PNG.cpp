@@ -9,6 +9,9 @@ void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 
 bool PNG::load(std::string_view file)
 {
+	static_assert(PNG_LIBPNG_VER >= 10254,
+			"Version of Png.h is very old, please update your version.");
+
 	std::ifstream readerFile(file.data(), std::ios::binary);
 
 	if (not readerFile.good())
