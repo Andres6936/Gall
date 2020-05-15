@@ -9,38 +9,46 @@ void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 
 bool PNG::load(std::string_view file)
 {
-	png_structp png_ptr;
-	png_infop info_ptr;
+	std::ifstream readerFile(file.data(), std::ios::binary);
 
-	std::ifstream ifile(file.data(), std::ios::binary);
+	if (not readerFile.good())
+	{
+		std::cerr << "Error while opening the file.\n\n";
+		return false;
+	}
 
-	if (not ifile.is_open()) return false;
+	if (not readerFile.is_open())
+	{
+		std::cerr << "Error while opening the file.\n\n";
+		std::cerr << "The file not exist.\n\n";
+		return false;
+	}
 
 	char magicNumber[8];
 
-	ifile.read(&magicNumber[0], 8 * sizeof(char));
+	readerFile.read(&magicNumber[0], 8 * sizeof(char));
 
-	if (!png_check_sig(reinterpret_cast<png_bytep>(magicNumber), 8))
+	if ( not png_check_sig(reinterpret_cast<png_bytep>(magicNumber), 8))
 	{
 		return false;
 	}
 
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+	png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
 
-	if (png_ptr == 0)
+	if (png_ptr == nullptr)
 	{
 		return false;
 	}
 
-	info_ptr = png_create_info_struct(png_ptr);
+	png_infop info_ptr = png_create_info_struct(png_ptr);
 
-	if (info_ptr == 0)
+	if (info_ptr == nullptr)
 	{
 		png_destroy_read_struct(&png_ptr, 0, 0);
 		return false;
 	}
 
-	png_set_read_fn(png_ptr, (void*)&ifile, readFileCallback);
+	png_set_read_fn(png_ptr, reinterpret_cast<void*>(&readerFile), readFileCallback);
 
 	png_set_sig_bytes(png_ptr, 8);
 

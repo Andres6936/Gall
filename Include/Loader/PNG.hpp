@@ -7,7 +7,7 @@
 #include <string>
 #include <string_view>
 
-class PNG
+class PNG final
 {
 
 private:
