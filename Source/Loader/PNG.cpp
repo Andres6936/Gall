@@ -10,7 +10,7 @@ void readFileCallback(png_structp png_ptr, png_bytep out, png_size_t count);
 bool PNG::load(std::string_view file)
 {
 	static_assert(PNG_LIBPNG_VER >= 10254,
-			"Version of Png.h is very old, please update your version.");
+			"Version of Png.h library is very old, please update your version.");
 
 	std::ifstream readerFile(file.data(), std::ios::binary);
 
@@ -27,26 +27,40 @@ bool PNG::load(std::string_view file)
 		return false;
 	}
 
+	// The first thing we do is read the first 8 bytes of the file and make
+	// sure they match the PNG signature bytes; if they don't, there is no
+	// need to waste time setting up libpng, allocating memory and so forth.
 	char magicNumber[8];
 
 	readerFile.read(&magicNumber[0], 8 * sizeof(char));
 
 	if ( not png_check_sig(reinterpret_cast<png_bytep>(magicNumber), 8))
 	{
+		std::cerr << "The file not is png.\n\n";
 		return false;
 	}
 
+	// Assuming the file checked out with a proper PNG signature, the next thing
+	// to do is set up the PNG structs that will hold all of the basic information
+	// associated with the PNG image.
+
+	// The use of two or three structs instead of one is historical baggage; a future,
+	// incompatible version of the library is likely to hide one or both from the
+	// user and perhaps instead employ an image ID tag to keep track of multiple
+	// images. But for now two are necessary:
+
+	// The struct at which png_structp points is used internally by libpng to keep track
+	// of the current state of the PNG image at any given moment;
 	png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
-
-	if (png_ptr == nullptr)
-	{
-		return false;
-	}
-
+	// info_ptr is used to indicate what its state will be after all of the
+	// user-requested transformations are performed.
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 
-	if (info_ptr == nullptr)
+	if (info_ptr == nullptr or png_ptr == nullptr)
 	{
+		std::cerr << "Error, out of memory, the library Png cannot initialize\n\n";
+		// Note the use of png_destroy_read_struct() to let libpng free any memory
+		// associated with the PNG structs.
 		png_destroy_read_struct(&png_ptr, 0, 0);
 		return false;
 	}
